@@ -22,6 +22,7 @@ namespace FOCommon.Parsers
         Dictionary<int, List<int>> IdToLine = new Dictionary<int, List<int>>();
         List<String> Lines = new List<string>();
         string filename;
+        Encoding CurrentEncoding = null;
 
         public bool IsParsed { get; set; }
 
@@ -35,7 +36,7 @@ namespace FOCommon.Parsers
                 Utils.Log(filename + " doesn't exist. Can't write data.");
             else
             {
-                File.WriteAllLines(filename, Lines.ToArray(), new UTF8Encoding(false));
+                File.WriteAllLines(filename, Lines.ToArray(), CurrentEncoding);
                 Utils.Log("Data written to " + filename);
             }
         }
@@ -98,7 +99,7 @@ namespace FOCommon.Parsers
             }
         }
 
-        public bool Parse()
+        public bool Parse(Encoding encode = null)
         {
             if (!File.Exists(filename))
             {
@@ -106,8 +107,10 @@ namespace FOCommon.Parsers
                 return false;
             }
 
+            CurrentEncoding = encode == null ? new UTF8Encoding(false) : encode;
+
             Lines.Clear();
-            Lines.AddRange(File.ReadAllLines(filename, new UTF8Encoding(false)));
+            Lines.AddRange(File.ReadAllLines(filename, CurrentEncoding));
             ReadData();
             
             Utils.Log(filename + " parsed.");
