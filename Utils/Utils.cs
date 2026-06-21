@@ -39,6 +39,8 @@ namespace FOCommon
             UINT16,
             SBYTE,
             BOOL,
+            STRING,
+            NOTYPE,
         };
 
         public static bool LaunchDialogEditor(FOCommon.Dialog.ListDialog Dialog, string DialogEditorPath)
@@ -124,6 +126,7 @@ namespace FOCommon
             if (Str == "uint8") return DataType.SBYTE;
             if (Str == "int8") return DataType.SBYTE;
             if (Str == "bool") return DataType.BOOL;
+            if (Str == "string") return DataType.STRING;
             return 0;
         }
 
